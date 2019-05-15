@@ -1,0 +1,867 @@
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,			% tamanho da fonte
+	openany,			% capítulos começam em pág ímpar - openright 
+					% independente de onde começa a página - openany
+	oneside,			% para impressão em recto e verso - twoside.
+					% para impressão apenas frente - oneside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	french,				% idioma adicional para hifenização
+	spanish,			% idioma adicional para hifenização
+	brazil				% o último idioma é o principal do documento
+	]{abntex2}
+
+% ---
+% Pacotes básicos 
+% ---
+\usepackage{lmodern}			% Usa a fonte Latin Modern			
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}	% Codificacao do documento (acentuação)
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}			% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{microtype} 		% para melhorias de justificação
+% ---
+		
+% ---
+% Pacotes adicionais, usados apenas no âmbito do Modelo Canônico do abnteX2
+% ---
+\usepackage{lipsum}				% para geração de dummy text
+% ---
+
+% ---
+% Pacotes de citações
+% ---
+\usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
+\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
+
+% --- 
+% CONFIGURAÇÕES DE PACOTES
+% --- 
+
+% ---
+% Configurações do pacote backref
+% Usado sem a opção hyperpageref de backref
+\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+% Texto padrão antes do número das páginas
+\renewcommand{\backref}{}
+% Define os textos da citação
+\renewcommand*{\backrefalt}[4]{
+	\ifcase #1 %
+		Nenhuma citação no texto.%
+	\or
+		Citado na página #2.%
+	\else
+		Citado #1 vezes nas páginas #2.%
+	\fi}%
+% ---
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\titulo{Título do seu trabalho}
+\autor{Seu nome}
+\local{Natal/RN}
+\data{ mês, ano}
+\orientador{Prof. Dr. Fulano de tal } %deixar espaço
+\coorientador{Prof. Dr. Cicrano de tal}
+\instituicao{%
+  UNIVERSIDADE FEDERAL DO RIO GRANDE DO NORTE
+  \par
+  CENTRO DE TECNOLOGIA
+  \par
+  PROGRAMA DE PÓS-GRADUAÇÃO EM ENGENHARIA QUÍMICA}
+\tipotrabalho{Seu tipo de trabalho } %deixar espaço
+%Dissertação (mestrado); tese (doutorado); proposta de dissertação/tese
+
+% O preambulo deve conter o tipo do trabalho, o objetivo, 
+% o nome da instituição e a área de concentração 
+\preambulo{\imprimirtipotrabalho apresentada ao Programa de Pós-graduação em Engenharia Química (PPGEQ) da Universidade Federal do Rio Grande do Norte (UFRN) como parte dos requisitos necessários à obtenção do grau de Mestre/Doutor, sob a
+orientação do \imprimirorientador e coorientação do \imprimircoorientador.}
+% ---
+
+
+% ---
+% Configurações de aparência do PDF final
+
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{trabalho acadêmico}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% --- 
+
+% ---
+% Posiciona figuras e tabelas no topo da página quando adicionadas sozinhas
+% em um página em branco. Ver https://github.com/abntex/abntex2/issues/170
+\makeatletter
+\setlength{\@fptop}{5pt} % Set distance from top of page to first float
+\makeatother
+% ---
+
+% ---
+% Possibilita criação de Quadros e Lista de quadros.
+% Ver https://github.com/abntex/abntex2/issues/176
+%
+\newcommand{\quadroname}{Quadro}
+\newcommand{\listofquadrosname}{Lista de quadros}
+
+\newfloat[chapter]{quadro}{loq}{\quadroname}
+\newlistof{listofquadros}{loq}{\listofquadrosname}
+\newlistentry{quadro}{loq}{0}
+
+% configurações para atender às regras da ABNT
+\setfloatadjustment{quadro}{\centering}
+\counterwithout{quadro}{chapter}
+\renewcommand{\cftquadroname}{\quadroname\space} 
+\renewcommand*{\cftquadroaftersnum}{\hfill--\hfill}
+
+\setfloatlocations{quadro}{hbtp} % Ver https://github.com/abntex/abntex2/issues/176
+% ---
+
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{1.3cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+
+%%criar um novo estilo de cabeçalhos e rodapés
+\makepagestyle{meuestilo}
+%%cabeçalhos
+\makeevenhead{meuestilo} %%pagina par
+{}
+{}
+{}
+\makeoddhead{meuestilo} %%pagina ímpar ou com oneside
+{\rightmark}
+{}
+{}
+
+\makeheadrule{meuestilo}{\textwidth}{\normalrulethickness}
+
+%% rodapé
+\makeevenfoot{meuestilo}
+{} %%pagina par
+{}
+{} 
+\makeoddfoot{meuestilo} %%pagina ímpar ou com oneside
+{\imprimirautor}
+{}
+{\thepage}
+
+\makefootrule{meuestilo}{\textwidth}{\normalrulethickness}{0pt}
+% Novo estilo usado apenas no cabeçalho da página em que se inicia o capítulo
+
+\makepagestyle{meuestilo_capitulo}
+%%cabeçalhos
+\makeevenhead{meuestilo_capitulo} %%pagina par
+{}
+{}
+{}
+\makeoddhead{meuestilo_capitulo} %%pagina ímpar ou com oneside
+{\rightmark}
+{}
+{}
+
+\makeheadrule{meuestilo_capitulo}{\textwidth}{\normalrulethickness}
+
+%% rodapé
+\makeevenfoot{meuestilo_capitulo}
+{} %%pagina par
+{}
+{} 
+\makeoddfoot{meuestilo_capitulo} %%pagina ímpar ou com oneside
+{\imprimirautor}
+{}
+{\thepage}
+
+\makefootrule{meuestilo_capitulo}{\textwidth}{\normalrulethickness}{0pt}
+
+%%% -----
+%%% Formato de cabeçalho/rodapé romano nos elementos pré-textuais
+%%% -----
+
+%% Novo estilo
+\makepagestyle{estilo_pretextual} %%% escolha um nome
+\makeevenfoot{estilo_pretextual}{}{}{\ABNTEXfontereduzida \textbf \thepage}
+\makeoddfoot{estilo_pretextual}{}{}{\ABNTEXfontereduzida \textbf \thepage}
+
+%% Novo estilo \part
+\makepagestyle{estilo_part} %%% escolha um nome
+\makeevenfoot{estilo_part}{}{}{}
+\makeoddfoot{estilo_part}{}{}{}
+
+%% Customiza comando \pretextual
+\renewcommand{\pretextual}{
+	\pagenumbering{roman} %%% ou \pagenumbering{Roman}
+	\aliaspagestyle{chapter}{estilo_pretextual}% customizing chapter pagestyle
+	\pagestyle{estilo_pretextual}
+	\aliaspagestyle{cleared}{empty}
+	\aliaspagestyle{part}{estilo_part}
+}
+
+% ---
+% Ajusta a marca \textual para que a numeração volte a ser arábica
+% nos elementos textuais
+\let\oldtextual\textual        % copia o comando \textual anterior para \oldtextual
+\renewcommand{\textual}{%
+	\oldtextual%
+	\pagenumbering{arabic} % volta à numeração arábica
+}
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Seleciona o idioma do documento (conforme pacotes do babel)
+%\selectlanguage{english}
+\selectlanguage{brazil}
+
+% ---
+% ---
+% Capa
+% ---
+% ---
+
+\begin{center}
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[width=3cm]{Figuras/ufrn.jpg}
+		\hspace*{\fill}
+		\includegraphics[width=4cm]{Figuras/ppgeq.jpg}
+		%\caption{Legenda}
+		%\label{Rotulo}
+	\end{figure}
+	\imprimirinstituicao \\
+	\vspace*{\fill} 
+	\imprimirtipotrabalho\\
+	\vspace*{\fill} 
+	\begin{center}
+		\ABNTEXchapterfont\bfseries\large\imprimirtitulo
+	\end{center}
+	\vspace*{\fill} 
+	\imprimirautor \\
+	\vspace*{\fill} 
+	\imprimirorientadorRotulo: \imprimirorientador \\
+	\imprimircoorientadorRotulo: \imprimircoorientador \\
+	\vspace*{\fill}
+	\begin{center}
+		\vspace*{0.5cm}
+		{\normalsize\imprimirlocal}
+		\par
+		{\normalsize\imprimirdata}
+		\vspace*{1cm}
+	\end{center}
+\end{center}
+% ---
+% ---
+% Folha de rosto
+% ---
+% ---
+\newpage
+\begin{center}
+	{\ABNTEXchapterfont\large\imprimirautor}
+	\vspace*{\fill}\vspace*{\fill}
+	\begin{center}
+		\ABNTEXchapterfont\bfseries\large\imprimirtitulo
+	\end{center}
+	\vspace*{\fill}
+	
+	\hspace{.45\textwidth}
+	\begin{minipage}{.5\textwidth}
+		\imprimirpreambulo
+	\end{minipage}%
+	\vspace*{\fill}
+	
+	\begin{center}
+		\vspace*{0.5cm}
+		{\imprimirlocal}
+		\par
+		{\imprimirdata}
+		\vspace*{1cm}
+	\end{center}
+\end{center}
+
+% ---
+
+% ---
+% Inserir a ficha bibliografica
+% ---
+
+% Isto é um exemplo de Ficha Catalográfica, ou ``Dados internacionais de
+% catalogação-na-publicação''. Você pode utilizar este modelo como referência. 
+% Porém, provavelmente a biblioteca da sua universidade lhe fornecerá um PDF
+% com a ficha catalográfica definitiva após a defesa do trabalho. Quando estiver
+% com o documento, salve-o como PDF no diretório do seu projeto e substitua todo
+% o conteúdo de implementação deste arquivo pelo comando abaixo:
+%
+% \begin{fichacatalografica}
+%     \includepdf{fig_ficha_catalografica.pdf}
+% \end{fichacatalografica}
+\newpage
+\begin{fichacatalografica}
+	\sffamily
+	\vspace*{\fill}					% Posição vertical
+	\begin{center}					% Minipage Centralizado
+	\fbox{\begin{minipage}[c][8cm]{13.5cm}		% Largura
+	\small
+	\imprimirautor
+	%Sobrenome, Nome do autor
+	
+	\hspace{0.5cm} \imprimirtitulo  / \imprimirautor. --
+	\imprimirlocal, \imprimirdata-
+	
+	\hspace{0.5cm} \thelastpage p. : il.\\
+	
+	\hspace{0.5cm} \imprimirorientadorRotulo~\imprimirorientador\\
+	
+	\hspace{0.5cm}
+	\parbox[t]{\textwidth}{\imprimirtipotrabalho~--~Universidade Federal do Rio Grande do \\Norte. Centro de Tecnologia. Programa de Pós-graduação em Engenharia \\Química,
+	\imprimirdata.}\\
+	
+	\hspace{0.5cm}
+		1. Biodiesel.
+		2. Reator Spray.
+		2. Transesterificação.			
+	\end{minipage}}
+	\end{center}
+\end{fichacatalografica}
+% ---
+
+% ---
+% Inserir errata
+% ---
+\begin{comment}
+
+\begin{errata}
+Elemento opcional da \citeonline[4.2.1.2]{NBR14724:2011}. Exemplo:
+
+\vspace{\onelineskip}
+
+FERRIGNO, C. R. A. \textbf{Tratamento de neoplasias ósseas apendiculares com
+reimplantação de enxerto ósseo autólogo autoclavado associado ao plasma
+rico em plaquetas}: estudo crítico na cirurgia de preservação de membro em
+cães. 2011. 128 f. Tese (Livre-Docência) - Faculdade de Medicina Veterinária e
+Zootecnia, Universidade de São Paulo, São Paulo, 2011.
+
+\begin{table}[htb]
+\center
+\footnotesize
+\begin{tabular}{|p{1.4cm}|p{1cm}|p{3cm}|p{3cm}|}
+  \hline
+   \textbf{Folha} & \textbf{Linha}  & \textbf{Onde se lê}  & \textbf{Leia-se}  \\
+    \hline
+    1 & 10 & auto-conclavo & autoconclavo\\
+   \hline
+\end{tabular}
+\end{table}
+
+\end{errata}
+\end{comment}
+% ---
+
+% ---
+% Inserir folha de aprovação
+% ---
+
+% Isto é um exemplo de Folha de aprovação, elemento obrigatório da NBR
+% 14724/2011 (seção 4.2.1.3). Você pode utilizar este modelo até a aprovação
+% do trabalho. Após isso, substitua todo o conteúdo deste arquivo por uma
+% imagem da página assinada pela banca com o comando abaixo:
+%
+% \begin{folhadeaprovacao}
+% \includepdf{folhadeaprovacao_final.pdf}
+% \end{folhadeaprovacao}
+%
+\begin{folhadeaprovacao}
+
+  \begin{center}
+    {\ABNTEXchapterfont\large\imprimirautor}
+
+    \vspace*{\fill}\vspace*{\fill}
+    \begin{center}
+      \ABNTEXchapterfont\bfseries\large\imprimirtitulo
+    \end{center}
+    \vspace*{\fill}
+    
+    \hspace{.45\textwidth}
+    \begin{minipage}{.5\textwidth}
+        \imprimirpreambulo
+    \end{minipage}%
+    \vspace*{\fill}
+  \end{center}
+        
+   \imprimirtipotrabalho apresentada em \imprimirlocal, [DIA] de [MÊS] de [ANO].
+
+   \assinatura{\textbf{\imprimirorientador} \\ Orientador} 
+   \assinatura{\textbf{\imprimircoorientador} \\ Coorientador}
+   %\assinatura{\textbf{Dr. } \\ Membro externo}
+   %\assinatura{\textbf{Professor} \\ Convidado 3}
+   %\assinatura{\textbf{Professor} \\ Convidado 4}
+      
+   \begin{center}
+    \vspace*{0.5cm}
+    {\imprimirlocal}
+    \par
+    {\imprimirdata}
+    \vspace*{1cm}
+  \end{center}
+  
+\end{folhadeaprovacao}
+% ---
+% ---
+% Dedicatória
+% ---
+% ---
+% \begin{dedicatoria}
+% \vspace*{\fill}
+% \centering
+% \noindent
+% \textit{ Este trabalho é dedicado às crianças adultas que,\\
+% quando pequenas, sonharam em se tornar cientistas.} \vspace*{\fill}
+% \end{dedicatoria}
+% ---
+% ---
+% Agradecimentos
+% ---
+% ---
+\newpage
+
+\begin{agradecimentos}
+Os agradecimentos principais são direcionados à Gerald Weber, Miguel Frasson,
+Leslie H. Watter, Bruno Parente Lima, Flávio de Vasconcellos Corrêa, Otavio Real
+Salvador, Renato Machnievscz\footnote{Os nomes dos integrantes do primeiro
+projeto abn\TeX\ foram extraídos de
+\url{http://codigolivre.org.br/projects/abntex/}} e todos aqueles que
+contribuíram para que a produção de trabalhos acadêmicos conforme
+as normas ABNT com \LaTeX\ fosse possível.
+
+Agradecimentos especiais são direcionados ao Centro de Pesquisa em Arquitetura
+da Informação\footnote{\url{http://www.cpai.unb.br/}} da Universidade de
+Brasília (CPAI), ao grupo de usuários
+\emph{latex-br}\footnote{\url{http://groups.google.com/group/latex-br}} e aos
+novos voluntários do grupo
+\emph{\abnTeX}\footnote{\url{http://groups.google.com/group/abntex2} e
+\url{http://www.abntex.net.br/}}~que contribuíram e que ainda
+contribuirão para a evolução do \abnTeX
+\end{agradecimentos}
+
+
+
+% ---
+% ---
+% Epígrafe
+% ---
+% ---
+\newpage
+\vspace*{\fill}
+\begin{flushright}
+	\textit{``
+		Um perito é alguém que cometeu \\ todos os erros possíveis\\
+		numa determinada área específica.`` \\
+		(Niels Bohr)}
+\end{flushright}
+\newpage
+% ---
+
+% ---
+% RESUMOS
+% ---
+
+% resumo em português
+\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+\begin{resumo}
+ Segundo a \citeonline[3.1-3.2]{NBR6028:2003}, o resumo deve ressaltar o
+ objetivo, o método, os resultados e as conclusões do documento. A ordem e a extensão
+ destes itens dependem do tipo de resumo (informativo ou indicativo) e do
+ tratamento que cada item recebe no documento original. O resumo deve ser
+ precedido da referência do documento, com exceção do resumo inserido no
+ próprio documento. (\ldots) As palavras-chave devem figurar logo abaixo do
+ resumo, antecedidas da expressão Palavras-chave:, separadas entre si por
+ ponto e finalizadas também por ponto.
+
+ \textbf{Palavras-chave}: latex. abntex. editoração de texto.
+\end{resumo}
+
+% resumo em inglês
+\begin{resumo}[Abstract]
+ \begin{otherlanguage*}{english}
+   This is the english abstract.
+
+   \vspace{\onelineskip}
+ 
+   \noindent 
+   \textbf{Keywords}: latex. abntex. text editoration.
+ \end{otherlanguage*}
+\end{resumo}
+
+% resumo em francês 
+%\begin{resumo}[Résumé]
+ %\begin{otherlanguage*}{french}
+ %   Il s'agit d'un résumé en français.
+ 
+ %  \textbf{Mots-clés}: latex. abntex. publication de textes.
+% \end{otherlanguage*}
+%\end{resumo}
+
+% resumo em espanhol
+%\begin{resumo}[Resumen]
+ %\begin{otherlanguage*}{spanish}
+ %  Este es el resumen en español.
+  
+ %  \textbf{Palabras clave}: latex. abntex. publicación de textos.
+% \end{otherlanguage*}
+% \end{resumo}
+% ---
+
+% ---
+% inserir lista de ilustrações
+% ---
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de quadros
+% ---
+%\pdfbookmark[0]{\listofquadrosname}{loq}
+%\listofquadros*
+%\cleardoublepage
+% ---
+
+% ---
+% inserir lista de tabelas
+% ---
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de abreviaturas e siglas
+% ---
+\begin{siglas}
+  \item[ABNT] Associação Brasileira de Normas Técnicas
+  \item[abnTeX] ABsurdas Normas para TeX
+\end{siglas}
+% ---
+
+% ---
+% inserir lista de símbolos
+% ---
+\begin{simbolos}
+  \item[$ \Gamma $] Letra grega Gama
+  \item[$ \Lambda $] Lambda
+  \item[$ \zeta $] Letra grega minúscula zeta
+  \item[$ \in $] Pertence
+\end{simbolos}
+% ---
+
+% ---
+% inserir o sumario
+% ---
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+% ---
+
+
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+\pagestyle{meuestilo}
+\aliaspagestyle{chapter}{meuestilo_capitulo}% customizing chapter pagestyle
+% ----------------------------------------------------------
+% PARTE
+% ----------------------------------------------------------
+\stepcounter{chapter}
+\part*{Capítulo \thechapter \\ Introdução}
+\addtocounter{chapter}{-1}
+% ----------------------------------------------------------
+
+% ----------------------------------------------------------
+% Introdução (exemplo de capítulo sem numeração, mas presente no Sumário)
+% ----------------------------------------------------------
+\chapter{Introdução}
+% ----------------------------------------------------------
+Apresentar o assunto a ser estudado, abordando os aspectos gerais e buscando
+introduzir o leitor na temática delineada. Também, fazer uma descrição sucinta dos
+objetivos do trabalho, podendo ser divididos em objetivo geral e objetivos específicos.
+Ressaltar a importância do trabalho dentro de um contexto científico e tecnológico,
+relatando as possíveis contribuições dos resultados alcançados.
+
+Este documento e seu código-fonte são exemplos de referência de uso da classe
+\textsf{abntex2} e do pacote \textsf{abntex2cite}. O documento 
+exemplifica a elaboração de trabalho acadêmico (tese, dissertação e outros do
+gênero) produzido conforme a ABNT NBR 14724:2011 \emph{Informação e documentação
+- Trabalhos acadêmicos - Apresentação}.
+
+A expressão ``Modelo Canônico'' é utilizada para indicar que \abnTeX\ não é
+modelo específico de nenhuma universidade ou instituição, mas que implementa tão
+somente os requisitos das normas da ABNT. Uma lista completa das normas
+observadas pelo \abnTeX\ é apresentada em \citeonline{abntex2classe}.
+
+Sinta-se convidado a participar do projeto \abnTeX! Acesse o site do projeto em
+\url{http://www.abntex.net.br/}. Também fique livre para conhecer,
+estudar, alterar e redistribuir o trabalho do \abnTeX, desde que os arquivos
+modificados tenham seus nomes alterados e que os créditos sejam dados aos
+autores originais, nos termos da ``The \LaTeX\ Project Public
+License''\footnote{\url{http://www.latex-project.org/lppl.txt}}.
+
+Encorajamos que sejam realizadas customizações específicas deste exemplo para
+universidades e outras instituições --- como capas, folha de aprovação, etc.
+Porém, recomendamos que ao invés de se alterar diretamente os arquivos do
+\abnTeX, distribua-se arquivos com as respectivas customizações.
+Isso permite que futuras versões do \abnTeX~não se tornem automaticamente
+incompatíveis com as customizações promovidas. Consulte
+\citeonline{abntex2-wiki-como-customizar} para mais informações.
+
+Este documento deve ser utilizado como complemento dos manuais do \abnTeX\ 
+\cite{abntex2classe,abntex2cite,abntex2cite-alf} e da classe \textsf{memoir}
+\cite{memoir}. 
+
+Esperamos, sinceramente, que o \abnTeX\ aprimore a qualidade do trabalho que
+você produzirá, de modo que o principal esforço seja concentrado no principal:
+na contribuição científica.
+
+Equipe \abnTeX 
+
+Lauro César Araujo
+
+
+% ----------------------------------------------------------
+% PARTE
+% ----------------------------------------------------------
+\stepcounter{chapter}
+\part*{Capítulo \thechapter \\ Revisão Bibliográfica}
+\addtocounter{chapter}{-1}
+% ----------------------------------------------------------
+
+% ---
+% Capitulo de revisão de literatura
+% ---
+\chapter{ Revisão Bibliográfica}
+% ---
+Abordar os aspectos teóricos diretamente relacionados com o trabalho desenvolvido,
+detalhando os assuntos principais do estudo em questão e baseando-se nas diferentes
+abordagens pesquisadas na literatura (livros, teses, dissertações, artigos, trabalhos de
+congresso, etc.).
+% ---
+\section{Aliquam vestibulum fringilla lorem}
+% ---
+
+\lipsum[1]
+
+% ----------------------------------------------------------
+% PARTE
+% ----------------------------------------------------------
+\stepcounter{chapter}
+\part*{Capítulo \thechapter \\ Metodologia }
+\addtocounter{chapter}{-1}
+
+% ----------------------------------------------------------
+
+% ---
+% Capitulo com exemplos de comandos inseridos de arquivo externo 
+% ---
+\include{abntex2-modelo-include-comandos}
+% ---
+\chapter{Metodologia}\label{cap_trabalho_academico}
+Apresentar os materiais e equipamentos utilizados na pesquisa experimental,
+detalhando os métodos e procedimentos empregados durante as atividades, mostrando,
+quando couber, diagramas das etapas executadas. No caso de trabalhos teórico-
+computacionais, descrever o desenvolvimento dos modelos matemáticos, detalhando a
+metodologia matemática ou numérica utilizada na resolução do modelo, os valores
+considerados dos parâmetros do modelo, os equipamentos e softwares usados no estudo.
+\section{Quadros}
+
+Este modelo vem com o ambiente \texttt{quadro} e impressão de Lista de quadros 
+configurados por padrão. Verifique um exemplo de utilização:
+
+\begin{table}[htb]
+\caption{\label{}Exemplo de quadro}
+\begin{tabular}{|c|c|c|c|}
+	\hline
+	\textbf{Pessoa} & \textbf{Idade} & \textbf{Peso} & \textbf{Altura} \\ \hline
+	Marcos & 26    & 68   & 178    \\ \hline
+	Ivone  & 22    & 57   & 162    \\ \hline
+	...    & ...   & ...  & ...    \\ \hline
+	Sueli  & 40    & 65   & 153    \\ \hline
+\end{tabular}
+\fonte{Autor.}
+\end{table}
+
+Este parágrafo apresenta como referenciar o quadro no texto, requisito
+obrigatório da ABNT. 
+Primeira opção, utilizando \texttt{autoref}: Ver o \autoref{quadro_exemplo}. 
+Segunda opção, utilizando  \texttt{ref}: Ver o Quadro \ref{quadro_exemplo}.
+
+
+% ----------------------------------------------------------
+% PARTE
+% ----------------------------------------------------------
+\stepcounter{chapter}
+\part*{Capítulo \thechapter \\ Resultados e Discussão }
+\addtocounter{chapter}{-1}
+% ----------------------------------------------------------
+
+% ---
+% primeiro capitulo de Resultados
+% ---
+\chapter{Resultados e Discussão}
+% ---
+Apresentar os resultados, analisando e discutindo os diversos aspectos de interesse.
+% ---
+\section{Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+posuere cubilia Curae}
+% ---
+
+\lipsum[21]
+
+% ----------------------------------------------------------
+% Finaliza a parte no bookmark do PDF
+% para que se inicie o bookmark na raiz
+% e adiciona espaço de parte no Sumário
+% ----------------------------------------------------------
+\phantompart
+% ----------------------------------------------------------
+% PARTE
+% ----------------------------------------------------------
+
+\stepcounter{chapter}
+\part*{Capítulo \thechapter \\ Conclusão}
+\addtocounter{chapter}{-1}
+% ----------------------------------------------------------
+% ---
+% Conclusão
+% ---
+\chapter{Conclusão}
+% ---
+Relacionar as conclusões obtidas de acordo com os resultados obtidos no trabalho,
+podendo incluir sugestões para trabalhos futuros.
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+\postextual
+% ----------------------------------------------------------
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\bibliography{abntex2-modelo-references}
+% ----------------------------------------------------------
+% Glossário
+% ----------------------------------------------------------
+%
+% Consulte o manual da classe abntex2 para orientações sobre o glossário.
+%
+%\glossary
+
+% ----------------------------------------------------------
+% Apêndices
+% ----------------------------------------------------------
+
+% ---
+% Inicia os apêndices
+% ---
+\begin{apendicesenv}
+
+% Imprime uma página indicando o início dos apêndices
+\partapendices
+
+% ----------------------------------------------------------
+\chapter{Quisque libero justo}
+% ----------------------------------------------------------
+
+\lipsum[50]
+
+% ----------------------------------------------------------
+\chapter{Nullam elementum urna vel imperdiet sodales elit ipsum pharetra ligula
+ac pretium ante justo a nulla curabitur tristique arcu eu metus}
+% ----------------------------------------------------------
+\lipsum[55-57]
+
+\end{apendicesenv}
+% ---
+
+
+% ----------------------------------------------------------
+% Anexos
+% ----------------------------------------------------------
+
+% ---
+% Inicia os anexos
+% ---
+\begin{anexosenv}
+
+% Imprime uma página indicando o início dos anexos
+\partanexos
+
+% ---
+\chapter{Instruções}
+% ---
+Complementar, na forma de uma sessão de anexos, assuntos que foram abordados no
+corpo do texto, mas que apresentam aspectos particulares que não justificam incorporar seu
+conteúdo como parte do trabalho de fato desenvolvido, servindo apenas de fundamentação,
+comprovação ou ilustração.
+
+% ---
+\chapter{Cras non urna sed feugiat cum sociis natoque penatibus et magnis dis
+parturient montes nascetur ridiculus mus}
+% ---
+
+\lipsum[31]
+
+% ---
+\chapter{Fusce facilisis lacinia dui}
+% ---
+
+\lipsum[32]
+
+\end{anexosenv}
+
+%---------------------------------------------------------------------
+% INDICE REMISSIVO
+%---------------------------------------------------------------------
+\phantompart
+\printindex
+%---------------------------------------------------------------------
+
+\end{document}
