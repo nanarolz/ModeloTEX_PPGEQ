@@ -13,4 +13,6 @@ Por
 
 >\renewcommand{\appendixtocname}{\texorpdfstring{\MakeTextUppercase{#2}}{#2}}
 
+## Observações
+
 O capítulo 3 contêm instruções de construção e formatação dos documentos em latex - pode e deve ser retirado.
