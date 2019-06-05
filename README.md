@@ -1,9 +1,7 @@
 # ModeloTEX_PPGEQ
-Modelo de trabalhos acadêmicos do PPGEQ/UFRN em latex
+Modelo de trabalhos acadêmicos do PPGEQ/UFRN em latex.
 
-Necessita do pacote [abntex2](https://github.com/abntex/abntex2) para funcionar
-
-## Instalando abntex2
+## Instalando [abntex2](https://github.com/abntex/abntex2ex2
 
 Para instalar o pacote é necessário um programa que o gerencie. O [miktex](https://miktex.org/) funciona para qualquer sistema operacional. Ao instala-lo procure por abntex2 em 'package' e instale.
 
